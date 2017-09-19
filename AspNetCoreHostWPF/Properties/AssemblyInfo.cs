@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("AspNetCoreHostWPF")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("算神工作室")]
 [assembly: AssemblyProduct("AspNetCoreHostWPF")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © 算神工作室 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
