@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,15 +16,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Threading;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.CodeAnalysis;
-using System.Reflection;
 
 namespace AspNetCoreHostWPF
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -32,16 +29,33 @@ namespace AspNetCoreHostWPF
             InitializeComponent();
         }
 
-        public IWebHost BuildWebHost(string[] args) =>
-           WebHost.CreateDefaultBuilder(args)
-               .UseUrls(hosturl.Text.Trim())
-               .UseHttpSys()
-               .UseStartup<WebApplication1.Startup>()
-               .Build();
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var t = BuildWebHost(null).RunAsync();
+            var builder = WebApplication.CreateBuilder(args: null);
+            builder.WebHost.UseUrls(hosturl.Text.Trim());
+            builder.WebHost.UseHttpSys();
+            // Add services to the container.
+            builder.Services.AddRazorPages();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
+            }
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.MapRazorPages();
+
+            app.RunAsync();
+
             MessageBox.Show("内置ASP.Net Core网站已启动！Enjoy！");
         }
     }
